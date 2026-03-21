@@ -1,0 +1,6 @@
+@Mission11_Skyles.API_HostAddress = http://localhost:5251
+
+GET {{Mission11_Skyles.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
