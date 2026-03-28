@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Mission11_Skyles.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+be03501fc7451b3576e360767b850f5f374f96a4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5894f3fe8b305567a71d10f50a58bbbeccf75e90")]
 [assembly: System.Reflection.AssemblyProductAttribute("Mission11_Skyles.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Mission11_Skyles.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
