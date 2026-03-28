@@ -13,10 +13,27 @@ public class BookController : Controller
     public BookController(BookstoreDbContext context) =>_bookContext = context;
     
     [HttpGet("AllBooks")]
-    public IEnumerable<Book> GetBooks()
+    public IEnumerable<Book> GetBooks([FromQuery] List<string>? bookCategories = null)
     {
-        var books = _bookContext.Books.ToList();
-        return books;
+        var query = _bookContext.Books.AsQueryable();
+
+        if (bookCategories != null && bookCategories.Any())
+        {
+            query = query.Where(b => bookCategories.Contains(b.Category));
+        }
+
+        return query.ToList();
     }
-    
+
+    [HttpGet("GetBookCategories")]
+    public IActionResult GetBookCategories()
+    {
+        var bookCategories = _bookContext.Books
+            .Select(b => b.Category)
+            .Distinct()
+            .ToList();
+        
+        return Ok(bookCategories);
+    }
 }
+
