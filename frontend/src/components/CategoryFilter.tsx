@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { BOOKS_API_URL } from "../api/BooksAPI";
 
 type CategoryFilterProps = {
   selectedCategories: string[];
@@ -23,9 +24,7 @@ function CategoryFilter({
     }
     const fetchCategories = async () => {
       try {
-        const response = await fetch(
-          "https://localhost:5000/Book/GetBookCategories"
-        );
+        const response = await fetch(`${BOOKS_API_URL}/GetBookCategories`);
         const data = await response.json();
         setLocalCategories(data);
       } catch (error) {

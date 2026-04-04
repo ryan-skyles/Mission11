@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { normalizeBook, type Book } from "../types/Book";
+import type { Book } from "../types/Book";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import type { BookstoreResumeState } from "../types/BookstoreResume";
+import { fetchBooks } from "../api/BooksAPI";
+import Pagination from "./Pagination";
 
 const PAGE_SIZE_OPTIONS = [5, 10, 25, 50] as const;
 
@@ -21,6 +23,8 @@ function BookList({
   const [titleSortAsc, setTitleSortAsc] = useState(true);
   const navigate = useNavigate();
   const { addToCart, cart } = useCart();
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const prevCategoriesRef = useRef<string[] | null>(null);
   useEffect(() => {
@@ -39,20 +43,20 @@ function BookList({
   }, [selectedCategories]);
 
   useEffect(() => {
-    const fetchBooks = async () => {
-      const categoryParams = selectedCategories
-        .map((cat) => `bookCategories=${encodeURIComponent(cat)}`)
-        .join("&");
-
-      const response = await fetch(
-        `https://localhost:5000/Book/AllBooks${
-          selectedCategories.length ? `?${categoryParams}` : ""
-        }`
-      );
-      const data: unknown[] = await response.json();
-      setBooks(data.map(normalizeBook));
+    const loadBooks = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await fetchBooks(selectedCategories);
+        setBooks(data.books);
+      } catch (err) {
+        setError((err as Error).message);
+      } finally {
+        setLoading(false);
+      }
     };
-    fetchBooks();
+
+    loadBooks();
   }, [selectedCategories]);
 
   const sortedBooks = useMemo(() => {
@@ -77,15 +81,6 @@ function BookList({
     return sortedBooks.slice(start, start + pageSize);
   }, [sortedBooks, currentPage, pageSize]);
 
-  const goToPage = (page: number) => {
-    setCurrentPage(Math.max(1, Math.min(page, totalPages)));
-  };
-
-  const handlePageSizeChange = (n: number) => {
-    setPageSize(n);
-    setCurrentPage(1);
-  };
-
   const handleAddToCart = (book: Book) => {
     const resume: BookstoreResumeState = {
       categories: [...selectedCategories],
@@ -104,6 +99,18 @@ function BookList({
     () => cart.reduce((sum, c) => sum + c.quantity * c.price, 0),
     [cart]
   );
+
+  if (loading) {
+    return <p>Loading Books...</p>;
+  }
+
+  if (error) {
+    return (
+      <p className="text-danger" role="alert">
+        Error: {error}
+      </p>
+    );
+  }
 
   return (
     <div>
@@ -137,37 +144,19 @@ function BookList({
         </div>
       </div>
 
-      <div className="row g-3 align-items-end mb-4">
-        <div className="col-sm-6 col-md-4 col-lg-3">
-          <label htmlFor="pageSize" className="form-label mb-1 small text-muted">
-            Books per page
-          </label>
-          <select
-            id="pageSize"
-            className="form-select form-select-sm"
-            value={pageSize}
-            onChange={(e) => handlePageSizeChange(Number(e.target.value))}
-          >
-            {PAGE_SIZE_OPTIONS.map((n) => (
-              <option key={n} value={n}>
-                {n}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="col-sm-6 col-md-auto">
-          <label className="form-label mb-1 small text-muted d-block invisible d-sm-none">
-            &nbsp;
-          </label>
-          <button
-            type="button"
-            className="btn btn-outline-secondary btn-sm w-100 w-sm-auto"
-            onClick={() => setTitleSortAsc((v) => !v)}
-          >
-            Sort: {titleSortAsc ? "A → Z" : "Z → A"}
-          </button>
-        </div>
-      </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        pageSize={pageSize}
+        pageSizeOptions={PAGE_SIZE_OPTIONS}
+        onPageChange={setCurrentPage}
+        onPageSizeChange={(n) => {
+          setPageSize(n);
+          setCurrentPage(1);
+        }}
+        titleSortAsc={titleSortAsc}
+        onToggleSort={() => setTitleSortAsc((v) => !v)}
+      />
 
       <div className="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mb-4">
         {pageBooks.map((b) => (
@@ -202,39 +191,6 @@ function BookList({
         ))}
       </div>
 
-      <nav aria-label="Book pagination">
-        <ul className="pagination pagination-sm justify-content-center flex-wrap mb-0">
-          <li className={`page-item ${currentPage <= 1 ? "disabled" : ""}`}>
-            <button
-              type="button"
-              className="page-link"
-              onClick={() => goToPage(currentPage - 1)}
-              disabled={currentPage <= 1}
-            >
-              Previous
-            </button>
-          </li>
-          <li className="page-item disabled">
-            <span className="page-link">
-              Page {currentPage} of {totalPages}
-            </span>
-          </li>
-          <li
-            className={`page-item ${
-              currentPage >= totalPages ? "disabled" : ""
-            }`}
-          >
-            <button
-              type="button"
-              className="page-link"
-              onClick={() => goToPage(currentPage + 1)}
-              disabled={currentPage >= totalPages}
-            >
-              Next
-            </button>
-          </li>
-        </ul>
-      </nav>
     </div>
   );
 }
