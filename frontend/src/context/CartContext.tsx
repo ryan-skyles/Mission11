@@ -1,3 +1,4 @@
+// In-memory shopping cart for the SPA session; wraps the router so all pages can useCart().
 import {
   createContext,
   useContext,

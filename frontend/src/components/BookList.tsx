@@ -1,3 +1,4 @@
+// Fetches books for selected categories, sorts/paginates, cart summary, and add-to-cart navigation.
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Book } from "../types/Book";
 import { Link, useNavigate } from "react-router-dom";

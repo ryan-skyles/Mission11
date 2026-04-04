@@ -1,3 +1,4 @@
+// Public catalog: category sidebar/offcanvas + book grid; restores filters/page via location.state when returning from cart.
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import BookList from "../components/BookList";

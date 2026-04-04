@@ -1,3 +1,4 @@
+// Client-side book shape (camelCase). Matches API after normalizeBook().
 export interface Book {
     bookId: number;
     title: string;

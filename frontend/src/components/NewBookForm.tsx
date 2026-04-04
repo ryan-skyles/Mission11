@@ -1,3 +1,4 @@
+// Admin add/edit book form; page count and price are strings while typing, parsed on submit.
 import { useEffect, useState, type ChangeEvent, type SubmitEvent } from "react";
 import type { Book } from "../types/Book";
 import { addBook, updateBook } from "../api/BooksAPI";

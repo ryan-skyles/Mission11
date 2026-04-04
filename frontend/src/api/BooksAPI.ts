@@ -1,3 +1,4 @@
+// HTTP helpers for the ASP.NET Book API (list, categories, admin add/update/delete).
 import type { Book } from "../types/Book";
 import { normalizeBook } from "../types/Book";
 
