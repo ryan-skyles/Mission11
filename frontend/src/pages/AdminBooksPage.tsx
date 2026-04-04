@@ -1,3 +1,4 @@
+// Admin: paginated table, add/edit via NewBookForm, delete with confirm; refetches after mutations.
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Book } from "../types/Book";
 import { deleteBook, fetchBooks } from "../api/BooksAPI";

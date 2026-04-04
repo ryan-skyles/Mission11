@@ -1,3 +1,4 @@
+// App entry: mount React, global styles, and Bootstrap (CSS + JS for components like navbar/offcanvas).
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'

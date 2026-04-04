@@ -1,3 +1,4 @@
+// Category checkboxes; loads options from API unless parent passes a pre-fetched list.
 import { useEffect, useState } from "react";
 import { BOOKS_API_URL } from "../api/BooksAPI";
 

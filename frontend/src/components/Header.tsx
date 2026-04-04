@@ -1,3 +1,4 @@
+// Top nav: brand, shop/admin links, cart badge (Bootstrap navbar + collapse on small screens).
 import { Link, NavLink } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 

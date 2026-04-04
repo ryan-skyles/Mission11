@@ -1,3 +1,4 @@
+// Cart line items, quantities, totals; "Continue shopping" can pass resume state back to the bookstore.
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import Header from "../components/Header";
 import { useCart } from "../context/CartContext";

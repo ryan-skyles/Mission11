@@ -1,3 +1,4 @@
+// Root layout: shared cart context + client-side routes (shop, cart, admin books).
 import "./App.css";
 import BookstorePage from "./pages/BookstorePage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";

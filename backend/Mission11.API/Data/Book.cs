@@ -1,6 +1,7 @@
 namespace Mission11_Skyles.API.Data;
 using System.ComponentModel.DataAnnotations;
 
+// Entity mapped to the Books table (SQLite). JSON uses camelCase on the wire (e.g. bookID).
 public class Book
 {
     [Key]

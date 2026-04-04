@@ -1,3 +1,4 @@
+// Shared controls: page size, sort toggle, previous/next (used by shop and admin lists).
 import type { ReactNode } from "react";
 
 type PaginationProps = {
