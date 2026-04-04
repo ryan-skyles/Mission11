@@ -36,6 +36,16 @@ function Header() {
               </NavLink>
             </li>
             <li className="nav-item">
+              <NavLink
+                className={({ isActive }) =>
+                  `nav-link text-white-50 ${isActive ? "active text-white fw-semibold" : ""}`
+                }
+                to="/adminbooks"
+              >
+                Admin
+              </NavLink>
+            </li>
+            <li className="nav-item">
               <Link
                 className="btn btn-outline-light btn-sm position-relative"
                 to="/cart"

@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import BookList from "../components/BookList";
 import CategoryFilter from "../components/CategoryFilter";
 import Header from "../components/Header";
+import { BOOKS_API_URL } from "../api/BooksAPI";
 
 type LocationResume = {
   resume?: {
@@ -25,9 +26,7 @@ function BookstorePage() {
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await fetch(
-          "https://localhost:5000/Book/GetBookCategories"
-        );
+        const res = await fetch(`${BOOKS_API_URL}/GetBookCategories`);
         const data: string[] = await res.json();
         setCategoryOptions(data);
       } catch {

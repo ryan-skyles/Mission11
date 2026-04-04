@@ -8,16 +8,18 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+var corsOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
+    ?? new[] { "http://localhost:3000" };
+
 builder.Services.AddCors(options =>
+{
+    options.AddPolicy("frontend", policy =>
     {
-        options.AddPolicy("frontend", policy =>
-        {
-            policy.WithOrigins("http://localhost:3000");
-            policy.AllowAnyHeader();
-            policy.AllowAnyMethod();
-        });
-    }
-);
+        policy.WithOrigins(corsOrigins);
+        policy.AllowAnyHeader();
+        policy.AllowAnyMethod();
+    });
+});
 
 
 
